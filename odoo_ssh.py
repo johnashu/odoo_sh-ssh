@@ -5,8 +5,14 @@ class OdooSsh:
 
     def __init__(self, ssh_url, shell):
         self.ssh_url = ssh_url
-        self.proc = Popen(shell, stdin=PIPE, universal_newlines=True)
+        self.shell = shell
+
+    def __enter__(self):
+        self.proc = Popen(self.shell, stdin=PIPE, universal_newlines=True)
         self.create_connection()
+
+    def __exit__(self):
+        self.close_connection()
 
     def create_connection(self):
         self.write(f'ssh {self.ssh_url} -tt')
@@ -29,16 +35,3 @@ class OdooSsh:
         self.proc.stdin.close()
         self.proc.wait()
 
-
-url = '12345@company_name.odoo.com'
-shell = 'cmd.exe' # 'sh' # 'bash'
-q = 'select name from stock_production_lot where id=1;'
-
-ossh = OdooSsh(url, shell)
-
-try:    
-    ossh.restart_odoo()
-    ossh.psql_connect()
-    ossh.write_sql(q)
-finally:
-    ossh.close_connection()
