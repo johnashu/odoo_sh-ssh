@@ -5,14 +5,8 @@ class OdooSsh:
 
     def __init__(self, ssh_url, shell):
         self.ssh_url = ssh_url
-        self.shell = shell
-
-    def __enter__(self):
-        self.proc = Popen(self.shell, stdin=PIPE, universal_newlines=True)
+        self.proc = Popen(shell, stdin=PIPE, universal_newlines=True)
         self.create_connection()
-
-    def __exit__(self):
-        self.close_connection()
 
     def create_connection(self):
         self.write(f'ssh {self.ssh_url} -tt')
