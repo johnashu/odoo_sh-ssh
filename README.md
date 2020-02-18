@@ -30,10 +30,3 @@ finally:
 
 ```
 
-### Use a context manager to handle the above for you
-```python
-with OdooSsh(url, shell) as ossh:
-    ossh.restart_odoo()
-    ossh.psql_connect()
-    ossh.write_sql(q)
-```
