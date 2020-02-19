@@ -1,23 +1,26 @@
 # odoo_sh-ssh
-Class to connect and control Odoo sh Shell
+Class to connect and control Odoo sh Shell using Os shell or Paramiko library
 
-It is assumed that all SSH keys are already setup
+
+# Shell Based (CMD, Bash, SH)
+It is assumed that all SSH keys are already setup .
 
 ### 1. Select the SSh address found on Odoo.sh and add as url
 ### 2. Choose Shell for the system you are using
 
-url = '12345@company.odoo.com'
+url = '12345@company.odoo.com' 
 shell = 'cmd.exe' # 'sh' # 'bash'
 
-### example SQL query
+### Example SQL query
 q = 'select name from stock_production_lot where id=1;'
 
 # examples
-### Use a try/finally with optional except / else if neededs
+### Use a try/finally with optional except / else if needed
 ```python
-ossh = OdooSsh(url, shell)
+ossh = OdooSshShell(url, shell)
 
-try:    
+try:
+    ossh.create_connection()    
     ossh.restart_odoo()
     ossh.psql_connect()
     ossh.write_sql(q)
@@ -30,3 +33,38 @@ finally:
 
 ```
 
+### Use context manager to do this for you.
+```python
+    with OdooSshShell(url, shell) as ossh:
+        ossh.restart_odoo()
+        ossh.psql_connect()
+        ossh.write_sql(q)
+```
+
+# Use Paramiko to connect
+URL = "company.odoo.com"
+USER = "123456"
+KEY_FILE = "path/to/ssh_key"
+
+
+```python
+ossh = OdooSshPara(URL, USER, KEY_FILE)
+
+try:
+    ossh.create_connection()
+    ossh.restart_odoo()
+    ossh.write(c)
+except KeyboardInterrupt as e:
+    ossh.close_connection()
+else:
+    print("Something Else Happened...")
+finally:
+    ossh.close_connection()
+```
+
+### Use context manager to do this for you.
+```python
+with OdooSshPara(URL, USER, KEY_FILE) as ossh:
+    res = ossh.restart_odoo()
+    print(res)
+```
