@@ -1,5 +1,4 @@
 import traceback
-import os
 import paramiko
 from time import sleep
 import logging as log
