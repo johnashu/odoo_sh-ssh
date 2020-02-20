@@ -50,10 +50,16 @@ KEY_FILE = "path/to/ssh_key"
 ```python
 ossh = OdooSshPara(URL, USER, KEY_FILE)
 
+c = 'psql -qAtX -c "select  name from stock_production_lot where id in (1, 2, 3, 4);"'
+
 try:
     ossh.create_connection()
     ossh.restart_odoo()
-    ossh.write(c)
+    out, err = ossh.write(c)
+
+    with open('test.csv', 'a') as f:
+        f.write(out)
+
 except KeyboardInterrupt as e:
     ossh.close_connection()
 else:
