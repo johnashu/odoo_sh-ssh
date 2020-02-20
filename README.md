@@ -1,5 +1,26 @@
 # odoo_sh-ssh
-Class to connect and control Odoo sh Shell using Os shell or Paramiko library
+Class to connect and control Odoo sh Shell using Os shell or Paramiko library.
+
+This is a boilerplate which can be molded as required.
+
+Any contributions are very welcome :)
+
+Odoo do not like too manyb programmatic connections and are currently very quick to ban for 10 mins if you login too often.
+
+Therefore it is best to preplan any operations and build up a script of commands to process in 1 connection.
+
+```python
+commands = [
+    f"""psql  -c 'copy sale_order to stdout' > file_on_odoo_sh.csv""",
+    "odoosh-restart",
+    'psql -qAtX -c "select name from stock_production_lot where id in (1, 2, 3, 4);"',
+    ...
+]
+
+for command in commands:
+    ossh.write(command)
+```
+
 
 The Shell option allows you to quickly establish an interactive login to the Psql shell
 
@@ -14,6 +35,9 @@ while True:
     ossh.write(i)
 
 ```
+
+You can then enter commands and execute them until pressing CTRL+C to exit.
+
 ```bash
 
 psql (10.8, server 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
