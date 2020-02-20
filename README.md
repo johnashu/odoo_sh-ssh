@@ -1,4 +1,6 @@
 # odoo_sh-ssh
+[![Current alerts](https://img.shields.io/lgtm/alerts/g/johnashu/odoo_sh-ssh.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/johnashu/odoo_sh-ssh/alerts/)
+
 Classes to connect and control Odoo sh Shell using Os shell or Paramiko library.
 
 This is a boilerplate which can be molded as required.
