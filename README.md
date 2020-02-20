@@ -1,6 +1,35 @@
 # odoo_sh-ssh
 Class to connect and control Odoo sh Shell using Os shell or Paramiko library
 
+The Shell option allows you to quickly establish an interactive login to the Psql shell
+
+for example:
+
+```python
+ossh  = OdooSshShell(url, shell)
+ossh.create_connection()
+ossh.psql_connect()
+while True:
+    i = input()
+    ossh.write(i)
+
+```
+```bash
+
+psql (10.8, server 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+company-master-123456=> select name from stock_production_lot where id=1;
+
+             name
+-------------------------------
+ product_1234567890
+(1 row)
+
+company-master-123456=>
+...
+
 
 # Shell Based (CMD, Bash, SH)
 It is assumed that all SSH keys are already setup .
@@ -9,6 +38,7 @@ It is assumed that all SSH keys are already setup .
 ### 2. Choose Shell for the system you are using
 
 url = '12345@company.odoo.com' 
+
 shell = 'cmd.exe' # 'sh' # 'bash'
 
 ### Example SQL query
